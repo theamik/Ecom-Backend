@@ -1,10 +1,10 @@
 node_modules
-# config.env
-.DS_Store
-dist
-dist-ssr
-*.local
-# /config.env
-# /config/config.env
+# # config.env
+# .DS_Store
+# dist
+# dist-ssr
+# *.local
+# # /config.env
+# # /config/config.env
 
-package-lock.json
+# package-lock.json
