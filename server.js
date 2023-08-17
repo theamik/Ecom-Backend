@@ -1,14 +1,14 @@
 const app = require('./app');
 const connectDatabase = require('./config/database');
-// let environment = 'development';
-// // Config
-// if (environment === 'production') {
-//   require('dotenv').config({ path: '.env' });
-// } else {
-//   require('dotenv').config({ path: 'config/config.env' });
-// }
-//require('dotenv').config({ path: 'config/config.env' });
-// console.log(environment);
+let environment = 'development';
+// Config
+if (environment === 'production') {
+  require('dotenv').config({ path: '.env' });
+} else {
+  require('dotenv').config({ path: 'config/config.env' });
+}
+// require('dotenv').config({ path: 'config/config.env' });
+console.log(environment);
 
 // Handling Uncaught Exception
 process.on('uncaughtException', (err) => {
@@ -16,8 +16,8 @@ process.on('uncaughtException', (err) => {
   console.log(`Shutting down the server due to Uncaught Exception`);
   process.exit(1);
 });
-//config
-require('dotenv').config({ path: 'config/config.env' });
+// //config
+// require('dotenv').config({ path: 'config/config.env' });
 // Connecting to database
 connectDatabase();
 

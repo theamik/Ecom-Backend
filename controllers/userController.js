@@ -4,13 +4,13 @@ const User = require("../models/userModel.js");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const sendToken = require("../utils/jwtToken");
-// const cloudinary = require("../utils/cloudinaryConfig");
+const cloudinary = require("../utils/cloudinaryConfig");
 
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  // const result = await cloudinary.uploader.upload(req.file.path, {
-  //   folder: "avatars",
-  // });
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    folder: "avatars",
+  });
 
   const { name, email, password } = req.body;
 
@@ -19,8 +19,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: "Sample 1",
-      url: "https://res.cloudinary.com/aleezainnovation/image/upload/v1689402993/fdmwuxt1f8gvdcp8a8qu.jpg",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 
@@ -93,7 +93,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   const resetPasswordUrl = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/password/reset/${resetToken}`;
+  )}/password/reset/${resetToken}`;
   // const resetPasswordUrl = `${process.env.FE_URL}/password/reset/${resetToken}`;
 
   const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
@@ -192,24 +192,24 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     email: req.body.email,
   };
 
-  // if (req.body.avatar !== "") {
-  //   const user = await User.findById(req.user.id);
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id);
 
-  //   const imageId = user.avatar.public_id;
+    const imageId = user.avatar.public_id;
 
-  //   await cloudinary.v2.uploader.destroy(imageId);
+    await cloudinary.v2.uploader.destroy(imageId);
 
-  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //     folder: "avatars",
-  //     width: 150,
-  //     crop: "scale",
-  //   });
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
 
-  //   newUserData.avatar = {
-  //     public_id: myCloud.public_id,
-  //     url: myCloud.secure_url,
-  //   };
-  // }
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,

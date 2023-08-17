@@ -2,20 +2,20 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const Product = require('../models/productModel');
 const ApiFeatures = require('../utils/apifeatures');
 const ErrorHander = require('../utils/errorhander');
-// const cloudinary = require('../utils/cloudinaryConfig');
+const cloudinary = require('../utils/cloudinaryConfig');
 
 // Create Product -- Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-  // const result = await cloudinary.uploader.upload(req.file.path, {
-  //   folder: 'products',
-  // });
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    folder: 'products',
+  });
 
-  // req.body.images = [
-  //   {
-  //     public_id: result.public_id,
-  //     url: result.secure_url,
-  //   },
-  // ];
+  req.body.images = [
+    {
+      public_id: result.public_id,
+      url: result.secure_url,
+    },
+  ];
 
   req.body.user = req.user.id;
 
@@ -71,7 +71,7 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHander('Product not found', 404));
   }
-  // await cloudinary.uploader.destroy(product.images[0].public_id);
+  await cloudinary.uploader.destroy(product.images[0].public_id);
   await product.deleteOne();
   res.status(200).json({
     success: true,

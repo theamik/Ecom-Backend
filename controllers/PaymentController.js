@@ -32,8 +32,8 @@ exports.createCheckoutSession = catchAsyncErrors(async (req, res, next) => {
   const stripeSession = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: items,
-    success_url: `http://localhot:3000/checkout/success`,
-    cancel_url: `http://localhot:3000/checkout/fail/${order._id}`,
+    success_url: `${process.env.FRONTEND_URL}/checkout/success`,
+    cancel_url: `${process.env.FRONTEND_URL}/checkout/fail/${order._id}`,
     metadata: {
       orderId: order._id,
     },

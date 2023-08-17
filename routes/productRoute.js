@@ -14,7 +14,7 @@ const {
   deleteReview,
 } = require('../controllers/productController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
-// const upload = require('../utils/multer');
+const upload = require('../utils/multer');
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router
   .post(
     isAuthenticatedUser,
     authorizeRoles('admin'),
-    // upload.single('image'),
+    upload.single('image'),
     createProduct
   );
 router

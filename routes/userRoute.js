@@ -15,12 +15,12 @@ const {
 } = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const router = express.Router();
-// const upload = require('../utils/multer');
+const upload = require('../utils/multer');
 
 router.route('/').get((req, res, next) => {
   res.send('API is running...:smile:');
 });
-router.route('/register').post( registerUser);
+router.route('/register').post( upload.single('image'), registerUser);
 router.route('/login').post(loginUser);
 router.route('/logout').get(isAuthenticatedUser, logout);
 router.route('/password/forgot').post(forgotPassword);
