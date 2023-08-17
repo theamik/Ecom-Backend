@@ -1,7 +1,7 @@
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const Order = require('../models/orderModel');
 const stripe = require('stripe')(
-  'sk_test_51MPk0OLWaDeJF2fycMjCQskMy7wlmA1ZAliCYUvq3B7j80axLAvQt13jEZLZgtiNR2Vw1y2MqJ8eMua60vDkafza00exaOSc56'
+  'sk_test_51NfLjISHOxv3pnMQ5fKQ7R7N4KmCJurv3puRYZWsKVvNiJZ8wsdyWzFctuWocYHC5eSJXMoGjn6kzDo7rLVbG8qE00iZGEpwAH'
 );
 
 exports.createCheckoutSession = catchAsyncErrors(async (req, res, next) => {
